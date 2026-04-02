@@ -1,0 +1,51 @@
+{% doc %}
+  Custom Fonts
+
+  Loads custom Avenir Next font files from assets/ via @font-face declarations
+  and overrides the theme's CSS font-family variables to use the custom fonts.
+
+  Weights loaded:
+  - 400 (Regular) → body text
+  - 600 (DemiBold) → subheadings
+  - 700 (Bold) → headings, accent
+
+  Font files required in assets/:
+  - AvenirNext-Regular.woff2
+  - AvenirNext-DemiBold.woff2
+  - AvenirNext-Bold.woff2
+
+  @example {% render 'custom-fonts' %}
+{% enddoc %}
+
+<style>
+  @font-face {
+    font-family: 'AvenirNextCustom';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url({{ 'AvenirNext-Regular.woff2' | asset_url }}) format('woff2');
+  }
+
+  @font-face {
+    font-family: 'AvenirNextCustom';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url({{ 'AvenirNext-DemiBold.woff2' | asset_url }}) format('woff2');
+  }
+
+  @font-face {
+    font-family: 'AvenirNextCustom';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url({{ 'AvenirNext-Bold.woff2' | asset_url }}) format('woff2');
+  }
+
+  :root {
+    --font-body--family: 'AvenirNextCustom', 'Avenir Next', Avenir, Helvetica, Arial, sans-serif;
+    --font-subheading--family: 'AvenirNextCustom', 'Avenir Next', Avenir, Helvetica, Arial, sans-serif;
+    --font-heading--family: 'AvenirNextCustom', 'Avenir Next', Avenir, Helvetica, Arial, sans-serif;
+    --font-accent--family: 'AvenirNextCustom', 'Avenir Next', Avenir, Helvetica, Arial, sans-serif;
+  }
+</style>
