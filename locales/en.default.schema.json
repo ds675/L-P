@@ -446,7 +446,17 @@
     "how_it_works": "How it works",
     "testimonial": "Testimonial",
     "stat": "Stat",
-    "stage": "Stage"
+    "stage": "Stage",
+    "lp_hero": "Hero",
+    "lp_press_mentions": "Press Mentions",
+    "lp_full_bleed_media": "Full Bleed Media",
+    "lp_media_block": "Media Block",
+    "lp_feature_callout": "Feature Callout",
+    "lp_survey_report": "Survey Report",
+    "lp_product_carousel": "Product Carousel",
+    "lp_how_it_works": "How It Works",
+    "lp_testimonials": "Testimonials",
+    "lp_blog_posts": "Blog Posts"
   },
   "options": {
     "above_carousel": "Above carousel",

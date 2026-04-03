@@ -1,0 +1,315 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+
+<div
+  class="
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    lp-press-mentions
+    spacing-style
+  "
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --lp-pm-bg: {{ section.settings.background_color }};
+    --lp-pm-text-color: {{ section.settings.text_color }};
+    --lp-pm-speed: {{ section.settings.speed }}s;
+  "
+>
+  {% if section.settings.heading != blank %}
+    <h2 class="lp-press-mentions__heading">{{ section.settings.heading | escape }}</h2>
+  {% endif %}
+
+  <div class="lp-press-mentions__track" {% if section.settings.auto_scroll %}data-auto-scroll{% endif %}>
+    <div class="lp-press-mentions__list">
+      {% for block in section.blocks %}
+        {% if block.type == 'logo' %}
+          <div class="lp-press-mentions__item" {{ block.shopify_attributes }}>
+            {% if block.settings.image != blank %}
+              <img
+                src="{{ block.settings.image | image_url: width: 300 }}"
+                alt="{{ block.settings.alt_text | default: '' | escape }}"
+                width="{{ block.settings.image.width }}"
+                height="{{ block.settings.image.height }}"
+                loading="lazy"
+                class="lp-press-mentions__image"
+                style="max-height: {{ block.settings.max_height }}px;"
+              >
+            {% elsif block.settings.svg_asset != blank %}
+              <img
+                src="{{ block.settings.svg_asset | asset_url }}"
+                alt="{{ block.settings.alt_text | default: '' | escape }}"
+                loading="lazy"
+                class="lp-press-mentions__image"
+                style="max-height: {{ block.settings.max_height }}px;"
+              >
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if section.settings.auto_scroll %}
+      <div class="lp-press-mentions__list" aria-hidden="true">
+        {% for block in section.blocks %}
+          {% if block.type == 'logo' %}
+            <div class="lp-press-mentions__item">
+              {% if block.settings.image != blank %}
+                <img
+                  src="{{ block.settings.image | image_url: width: 300 }}"
+                  alt=""
+                  width="{{ block.settings.image.width }}"
+                  height="{{ block.settings.image.height }}"
+                  loading="lazy"
+                  class="lp-press-mentions__image"
+                  style="max-height: {{ block.settings.max_height }}px;"
+                >
+              {% elsif block.settings.svg_asset != blank %}
+                <img
+                  src="{{ block.settings.svg_asset | asset_url }}"
+                  alt=""
+                  loading="lazy"
+                  class="lp-press-mentions__image"
+                  style="max-height: {{ block.settings.max_height }}px;"
+                >
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .lp-press-mentions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    background-color: var(--lp-pm-bg, var(--brand-calm-teal, #C7E8ED));
+    overflow: hidden;
+  }
+
+  .lp-press-mentions__heading {
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: var(--font-size--base, 1rem);
+    line-height: 24px;
+    color: var(--lp-pm-text-color, var(--brand-aqua-800, #0C2B45));
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .lp-press-mentions__track {
+    display: flex;
+    width: 100%;
+    mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+  }
+
+  .lp-press-mentions__track[data-auto-scroll] {
+    overflow: hidden;
+  }
+
+  .lp-press-mentions__track[data-auto-scroll] .lp-press-mentions__list {
+    animation: lp-press-scroll var(--lp-pm-speed, 20s) linear infinite;
+  }
+
+  @keyframes lp-press-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+
+  .lp-press-mentions__list {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    flex-shrink: 0;
+    padding-inline: 24px;
+  }
+
+  .lp-press-mentions__item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lp-press-mentions__image {
+    display: block;
+    height: auto;
+    max-height: 32px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.8;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lp-press-mentions__track[data-auto-scroll] .lp-press-mentions__list {
+      animation: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.lp_press_mentions",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "Featured In"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_scroll",
+      "label": "t:settings.auto_scroll",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "t:settings.speed",
+      "min": 5,
+      "max": 60,
+      "step": 1,
+      "default": 20,
+      "unit": "s"
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "default": "#C7E8ED"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:settings.text_color",
+      "default": "#0C2B45"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.width",
+      "options": [
+        { "value": "page-width", "label": "t:options.page" },
+        { "value": "full-width", "label": "t:options.full" }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 64,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 64,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "t:names.logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:settings.image"
+        },
+        {
+          "type": "text",
+          "id": "svg_asset",
+          "label": "t:settings.svg_asset_filename",
+          "info": "e.g. logo.svg"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "t:settings.alt_text",
+          "default": "Press logo"
+        },
+        {
+          "type": "number",
+          "id": "max_height",
+          "label": "t:settings.max_height",
+          "default": 32
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.lp_press_mentions",
+      "blocks": [
+        {
+          "type": "logo",
+          "settings": {
+            "svg_asset": "bf-wordmark-red.svg",
+            "alt_text": "BuzzFeed"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "svg_asset": "gooponlinelogo-1.svg",
+            "alt_text": "Goop"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "svg_asset": "good-housekeeping-seeklogo-1.svg",
+            "alt_text": "Good Housekeeping"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "svg_asset": "business-insider-2023-logo-1.svg",
+            "alt_text": "Business Insider"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "svg_asset": "layer-1.svg",
+            "alt_text": "Allure"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "svg_asset": "new-york-magazine-logo-1.svg",
+            "alt_text": "New York Magazine"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

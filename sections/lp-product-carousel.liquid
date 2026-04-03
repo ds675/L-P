@@ -1,0 +1,431 @@
+{% liquid
+  assign collection = section.settings.collection
+  assign max_products = section.settings.max_products
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+
+<lp-product-carousel
+  class="
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    lp-product-carousel
+    spacing-style
+  "
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --lp-pc-bg: {{ section.settings.background_color }};
+    --lp-pc-heading-color: {{ section.settings.heading_color }};
+    --lp-pc-price-color: {{ section.settings.price_color }};
+    --lp-pc-badge-bg: {{ section.settings.badge_color }};
+    --lp-pc-badge-text: {{ section.settings.badge_text_color }};
+    --lp-pc-btn-bg: {{ section.settings.button_background }};
+    --lp-pc-btn-text: {{ section.settings.button_text_color }};
+  "
+>
+  {% if section.settings.heading != blank %}
+    <div class="lp-product-carousel__heading">{{ section.settings.heading }}</div>
+  {% endif %}
+
+  <div class="lp-product-carousel__carousel">
+    <div class="lp-product-carousel__track">
+      {% if collection != blank and collection.products_count > 0 %}
+        {% for product in collection.products limit: max_products %}
+          <div class="lp-product-carousel__card">
+            <div class="lp-product-carousel__card-image">
+              {% if product.featured_image != blank %}
+                <img
+                  src="{{ product.featured_image | image_url: width: 640 }}"
+                  alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                  width="320"
+                  height="320"
+                  loading="lazy"
+                  class="lp-product-carousel__image"
+                >
+              {% else %}
+                <div class="lp-product-carousel__image-placeholder"></div>
+              {% endif %}
+
+              {% if product.compare_at_price > product.price %}
+                {% assign discount_pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+                <span class="lp-product-carousel__badge">
+                  {{ discount_pct }}% OFF
+                </span>
+              {% endif %}
+            </div>
+
+            <div class="lp-product-carousel__card-info">
+              <a href="{{ product.url }}" class="lp-product-carousel__title">{{ product.title | escape }}</a>
+
+              {% if section.settings.show_rating %}
+                <div class="lp-product-carousel__rating">
+                  {% if section.settings.star_image != blank %}
+                    <img
+                      src="{{ section.settings.star_image | image_url: width: 172 }}"
+                      alt="Rating stars"
+                      width="86"
+                      height="14"
+                      loading="lazy"
+                    >
+                  {% elsif section.settings.star_svg != blank %}
+                    <img
+                      src="{{ section.settings.star_svg | asset_url }}"
+                      alt="Rating stars"
+                      width="86"
+                      height="14"
+                      loading="lazy"
+                    >
+                  {% endif %}
+                </div>
+              {% endif %}
+
+              <div class="lp-product-carousel__price">
+                {{ product.price | money }}
+              </div>
+
+              {% if section.settings.installment_text != blank %}
+                <p class="lp-product-carousel__installment">{{ section.settings.installment_text | escape }}</p>
+              {% endif %}
+
+              {% if section.settings.button_text != blank %}
+                <a href="{{ product.url }}" class="lp-product-carousel__button">
+                  {{ section.settings.button_text | escape }}
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        {% for i in (1..4) %}
+          <div class="lp-product-carousel__card">
+            <div class="lp-product-carousel__card-image">
+              <div class="lp-product-carousel__image-placeholder"></div>
+            </div>
+            <div class="lp-product-carousel__card-info">
+              <span class="lp-product-carousel__title">Sample Product {{ i }}</span>
+              <div class="lp-product-carousel__price">$129.00</div>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</lp-product-carousel>
+
+{% stylesheet %}
+  .lp-product-carousel {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    background-color: var(--lp-pc-bg, var(--brand-blue-50, #F0F4FA));
+    overflow: hidden;
+  }
+
+  .lp-product-carousel__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: var(--font-size--3xl, 2rem);
+    line-height: 40px;
+    color: var(--lp-pc-heading-color, var(--brand-tru-teal, #00839F));
+    margin: 0;
+    text-align: center;
+  }
+
+  .lp-product-carousel__heading p {
+    margin: 0;
+  }
+
+  .lp-product-carousel__carousel {
+    overflow: visible;
+  }
+
+  .lp-product-carousel__track {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-block-end: 8px;
+  }
+
+  .lp-product-carousel__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .lp-product-carousel__card {
+    flex: 0 0 280px;
+    min-width: 260px;
+    max-width: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    scroll-snap-align: start;
+  }
+
+  .lp-product-carousel__card-image {
+    position: relative;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    background: #FFFFFF;
+  }
+
+  .lp-product-carousel__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .lp-product-carousel__image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: var(--color-border, #eee);
+  }
+
+  .lp-product-carousel__badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    background: var(--lp-pc-badge-bg, #0E3D66);
+    color: var(--lp-pc-badge-text, #FFFFFF);
+  }
+
+  .lp-product-carousel__card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+  }
+
+  .lp-product-carousel__title {
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: var(--font-size--base, 1rem);
+    line-height: 24px;
+    color: var(--brand-teel-800, #102D33);
+    text-decoration: none;
+    margin: 0;
+  }
+
+  .lp-product-carousel__title:hover {
+    text-decoration: underline;
+  }
+
+  .lp-product-carousel__rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .lp-product-carousel__price {
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: var(--font-size--2xl, 1.5rem);
+    line-height: 32px;
+    color: var(--lp-pc-price-color, var(--brand-tru-teal, #00839F));
+  }
+
+  .lp-product-carousel__installment {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--color-foreground, #121211);
+    margin: 0;
+  }
+
+  .lp-product-carousel__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 28px;
+    background: var(--lp-pc-btn-bg, var(--brand-ideal-orange, #F9A31A));
+    border: none;
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: var(--font-size--base, 1rem);
+    line-height: 24px;
+    color: var(--lp-pc-btn-text, var(--brand-aqua-900, #311C01));
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    margin-block-start: 4px;
+  }
+
+  .lp-product-carousel__button:hover {
+    opacity: 0.9;
+  }
+
+  @media screen and (min-width: 769px) {
+    .lp-product-carousel__track {
+      overflow-x: visible;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .lp-product-carousel__card {
+      flex: 1 1 calc(25% - 12px);
+      max-width: calc(25% - 12px);
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  import '@theme/lp-product-carousel';
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:names.lp_product_carousel",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:settings.collection"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "<p>Find the Perfect AquaTru for Your Home</p>"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "t:settings.max_products",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "t:settings.show_rating",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "star_image",
+      "label": "t:settings.star_rating_image"
+    },
+    {
+      "type": "text",
+      "id": "star_svg",
+      "label": "t:settings.star_svg_asset",
+      "default": "rating-star.svg"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "t:settings.button_label",
+      "default": "Learn More"
+    },
+    {
+      "type": "text",
+      "id": "installment_text",
+      "label": "t:settings.installment_text",
+      "default": "or 4 easy instalments as low as $32.00/mo"
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "default": "#F0F4FA"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "t:settings.heading_color",
+      "default": "#00839F"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "t:settings.price_color",
+      "default": "#00839F"
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "t:settings.badge_color",
+      "default": "#0E3D66"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "t:settings.badge_text_color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "t:settings.button_background",
+      "default": "#F9A31A"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "t:settings.button_text_color",
+      "default": "#311C01"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.width",
+      "options": [
+        { "value": "page-width", "label": "t:options.page" },
+        { "value": "full-width", "label": "t:options.full" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 64,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 64,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.lp_product_carousel"
+    }
+  ]
+}
+{% endschema %}

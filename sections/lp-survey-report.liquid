@@ -1,0 +1,316 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+
+<div
+  class="
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    lp-survey-report
+    spacing-style
+  "
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --lp-sr-bg: {{ section.settings.background_color }};
+    --lp-sr-heading-color: {{ section.settings.heading_color }};
+    --lp-sr-ring-color: {{ section.settings.ring_color }};
+    --lp-sr-ring-track: {{ section.settings.ring_track_color }};
+  "
+>
+  {% if section.settings.heading != blank %}
+    <div class="lp-survey-report__heading">{{ section.settings.heading }}</div>
+  {% endif %}
+
+  {% if section.blocks.size > 0 %}
+    <div class="lp-survey-report__grid">
+      {% for block in section.blocks %}
+        {% if block.type == 'stat' %}
+          {% assign pct = block.settings.percentage | default: 0 %}
+          {% assign remaining = 100 | minus: pct %}
+          {% assign dash_offset = 283 | times: remaining | divided_by: 100 %}
+          <div class="lp-survey-report__item" {{ block.shopify_attributes }}>
+            <div class="lp-survey-report__ring">
+              <svg viewBox="0 0 100 100" width="100" height="100" aria-hidden="true">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="var(--lp-sr-ring-track, #E7E6E2)" stroke-width="8" />
+                <circle
+                  cx="50" cy="50" r="45"
+                  fill="none"
+                  stroke="var(--lp-sr-ring-color, var(--brand-ideal-orange, #F38B00))"
+                  stroke-width="8"
+                  stroke-linecap="round"
+                  stroke-dasharray="283"
+                  stroke-dashoffset="{{ dash_offset }}"
+                  transform="rotate(-90 50 50)"
+                />
+              </svg>
+              <span class="lp-survey-report__pct">{{ pct }}%</span>
+            </div>
+
+            <div class="lp-survey-report__text">
+              {% if block.settings.title != blank %}
+                <h3 class="lp-survey-report__title">{{ block.settings.title | escape }}</h3>
+              {% endif %}
+              {% if block.settings.description != blank %}
+                <p class="lp-survey-report__desc">{{ block.settings.description | escape }}</p>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if section.settings.footnote != blank %}
+    <p class="lp-survey-report__footnote">{{ section.settings.footnote | escape }}</p>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .lp-survey-report {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    background-color: var(--lp-sr-bg, #FFFFFF);
+  }
+
+  .lp-survey-report__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: var(--font-size--3xl, 2rem);
+    line-height: 40px;
+    color: var(--lp-sr-heading-color, var(--brand-aqua-900, #311C01));
+    margin: 0;
+    text-align: center;
+  }
+
+  .lp-survey-report__heading p {
+    margin: 0;
+  }
+
+  .lp-survey-report__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .lp-survey-report__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .lp-survey-report__ring {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lp-survey-report__ring svg {
+    position: absolute;
+    inset: 0;
+  }
+
+  .lp-survey-report__pct {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: var(--font-size--2xl, 1.5rem);
+    line-height: 1;
+    color: var(--lp-sr-heading-color, var(--brand-aqua-900, #311C01));
+  }
+
+  .lp-survey-report__text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .lp-survey-report__title {
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: var(--font-size--lg, 1.125rem);
+    line-height: 28px;
+    color: var(--lp-sr-heading-color, var(--brand-aqua-900, #311C01));
+    margin: 0;
+  }
+
+  .lp-survey-report__desc {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: var(--font-size--base, 1rem);
+    line-height: 24px;
+    color: var(--color-foreground, #121211);
+    margin: 0;
+  }
+
+  .lp-survey-report__footnote {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--color-foreground, #121211);
+    margin: 0;
+    text-align: center;
+    opacity: 0.7;
+  }
+
+  @media screen and (min-width: 769px) {
+    .lp-survey-report__grid {
+      flex-direction: row;
+      justify-content: center;
+      gap: 48px;
+    }
+
+    .lp-survey-report__item {
+      flex: 1;
+      max-width: 280px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.lp_survey_report",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "<p>Real Results: What Customers are Saying</p>"
+    },
+    {
+      "type": "text",
+      "id": "footnote",
+      "label": "t:settings.footnote",
+      "default": "*Based on an email survey of 472 AquaTru customer respondents."
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "t:settings.heading_color",
+      "default": "#311C01"
+    },
+    {
+      "type": "color",
+      "id": "ring_color",
+      "label": "t:settings.ring_color",
+      "default": "#F38B00"
+    },
+    {
+      "type": "color",
+      "id": "ring_track_color",
+      "label": "t:settings.ring_track_color",
+      "default": "#E7E6E2"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.width",
+      "options": [
+        { "value": "page-width", "label": "t:options.page" },
+        { "value": "full-width", "label": "t:options.full" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 64,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 64,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "t:names.stat",
+      "settings": [
+        {
+          "type": "number",
+          "id": "percentage",
+          "label": "t:settings.percentage",
+          "default": 98
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:settings.heading",
+          "default": "Stat title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "t:settings.description",
+          "default": "Stat description text."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.lp_survey_report",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "percentage": 98,
+            "title": "Cleaner, Safer, Healthier Water",
+            "description": "98% of customers agree their drinking water is cleaner, safer, & healthier."
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "percentage": 98,
+            "title": "Water You Can Trust",
+            "description": "Over 98% of customers say AquaTru gives them water they can trust."
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "percentage": 96,
+            "title": "Best-Tasting Water",
+            "description": "Over 96% of customers say AquaTru is the best water they've ever tasted."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

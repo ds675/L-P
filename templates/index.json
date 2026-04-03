@@ -1,104 +1,20 @@
 {
   "sections": {
-    "hero_jVaWmY": {
-      "type": "hero",
-      "blocks": {
-        "text_heading": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Water You Can Trust. Results You Can Taste.</p>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-heading--family)",
-            "font_size": "",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "#FFFFFF",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          }
-        },
-        "text_subtitle": {
-          "type": "text",
-          "settings": {
-            "text": "<p>AquaTru removes what most filters miss - Forever Chemicals (PFOA/PFOS), Microplastics, Lead, and more.</p>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "#FFFFFF",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          }
-        },
-        "button_cta": {
-          "type": "button",
-          "settings": {
-            "label": "Shop Water Purifiers",
-            "link": "shopify://collections/all",
-            "open_in_new_tab": false,
-            "style_class": "button-primary",
-            "width": "100%",
-            "custom_width": 100,
-            "width_mobile": "100%",
-            "custom_width_mobile": 100
-          }
-        }
-      },
-      "block_order": [
-        "text_heading",
-        "text_subtitle",
-        "button_cta"
-      ],
+    "lp_hero": {
+      "type": "lp-hero",
       "settings": {
-        "media_type_1": "image",
-        "media_type_2": "image",
-        "link": "",
-        "open_in_new_tab": false,
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "space-between",
-        "vertical_alignment": "flex-end",
-        "align_baseline": true,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "flex-end",
-        "gap": 32,
-        "section_width": "full-width",
-        "section_height": "large",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-6",
-        "toggle_overlay": true,
+        "heading": "Water You Can Trust. Results You Can Taste.",
+        "subheading": "AquaTru removes what most filters miss - Forever Chemicals (PFOA/PFOS), Microplastics, Lead, and more.",
+        "button_text": "Shop Water Purifiers",
         "overlay_color": "#102D33",
-        "overlay_style": "gradient",
-        "gradient_direction": "to top",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
+        "color_scheme": "scheme-6",
+        "section_width": "full-width",
         "padding-block-start": 100,
         "padding-block-end": 56
       }
     },
-    "press_logos": {
-      "type": "press-logos",
+    "lp_press_mentions": {
+      "type": "lp-press-mentions",
       "blocks": {
         "logo_1": {
           "type": "logo",
@@ -156,8 +72,8 @@
         "padding-block-end": 64
       }
     },
-    "features_with_media": {
-      "type": "features-with-media",
+    "lp_full_bleed_media": {
+      "type": "lp-full-bleed-media",
       "blocks": {
         "feature_1": {
           "type": "feature",
@@ -201,8 +117,8 @@
         "padding-block-end": 0
       }
     },
-    "video_cta": {
-      "type": "video-cta",
+    "lp_media_block": {
+      "type": "lp-media-block",
       "settings": {
         "heading": "<p>Fill. Sip. Thrive.</p>",
         "subheading": "Cutting edge reverse osmosis water purifiers",
@@ -216,30 +132,8 @@
         "padding-block-end": 64
       }
     },
-    "product_showcase": {
-      "type": "product-showcase",
-      "settings": {
-        "heading": "<p>Find the Perfect AquaTru for Your Home</p>",
-        "max_products": 4,
-        "button_text": "Learn More",
-        "installment_text": "or 4 easy instalments as low as $32.00/mo",
-        "show_rating": true,
-        "star_svg": "rating-star.svg",
-        "background_color": "#F0F4FA",
-        "heading_color": "#00839F",
-        "price_color": "#00839F",
-        "badge_color": "#0E3D66",
-        "badge_text_color": "#FFFFFF",
-        "button_background": "#F9A31A",
-        "button_text_color": "#311C01",
-        "color_scheme": "scheme-1",
-        "section_width": "page-width",
-        "padding-block-start": 64,
-        "padding-block-end": 64
-      }
-    },
-    "trust_badges": {
-      "type": "trust-badges",
+    "lp_feature_callout": {
+      "type": "lp-feature-callout",
       "blocks": {
         "badge_1": {
           "type": "badge",
@@ -276,8 +170,8 @@
         "padding-block-end": 64
       }
     },
-    "customer_stats": {
-      "type": "customer-stats",
+    "lp_survey_report": {
+      "type": "lp-survey-report",
       "blocks": {
         "stat_1": {
           "type": "stat",
@@ -318,8 +212,30 @@
         "padding-block-end": 64
       }
     },
-    "how_it_works": {
-      "type": "how-it-works",
+    "lp_product_carousel": {
+      "type": "lp-product-carousel",
+      "settings": {
+        "heading": "<p>Find the Perfect AquaTru for Your Home</p>",
+        "max_products": 4,
+        "button_text": "Learn More",
+        "installment_text": "or 4 easy instalments as low as $32.00/mo",
+        "show_rating": true,
+        "star_svg": "rating-star.svg",
+        "background_color": "#F0F4FA",
+        "heading_color": "#00839F",
+        "price_color": "#00839F",
+        "badge_color": "#0E3D66",
+        "badge_text_color": "#FFFFFF",
+        "button_background": "#F9A31A",
+        "button_text_color": "#311C01",
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 64,
+        "padding-block-end": 64
+      }
+    },
+    "lp_how_it_works": {
+      "type": "lp-how-it-works",
       "blocks": {
         "stage_1": {
           "type": "stage",
@@ -348,7 +264,7 @@
       },
       "block_order": ["stage_1", "stage_2", "stage_3"],
       "settings": {
-        "heading": "<p>Patented 4-Stage Ultra Reverse Osmosis® Purification</p>",
+        "heading": "<p>Patented 4-Stage Ultra Reverse Osmosis\u00ae Purification</p>",
         "description": "AquaTru filters more water with up to 80% less waste than traditional R.O. systems by recirculating and isolating contaminants.",
         "overlay_color": "#1A2C37",
         "section_height": 760,
@@ -357,8 +273,8 @@
         "padding-block-end": 0
       }
     },
-    "testimonials": {
-      "type": "testimonials",
+    "lp_testimonials": {
+      "type": "lp-testimonials",
       "blocks": {
         "testimonial_1": {
           "type": "testimonial",
@@ -410,70 +326,30 @@
         "padding-block-end": 64
       }
     },
-    "blog_posts": {
-      "type": "featured-blog-posts",
-      "blocks": {
-        "static-blog-title": {
-          "type": "_featured-blog-posts-title",
-          "static": true,
-          "settings": {
-            "text": "<h3>Recommended Posts</h3>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h4",
-            "font": "var(--font-heading--family)",
-            "font_size": "",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          }
-        },
-        "static-blog-post-card": {
-          "type": "_featured-blog-posts-card",
-          "static": true,
-          "settings": {}
-        }
-      },
+    "lp_blog_posts": {
+      "type": "lp-blog-posts",
       "settings": {
-        "layout_type": "carousel",
-        "carousel_on_mobile": true,
+        "heading": "<p>Recommended Posts</p>",
         "post_limit": 4,
-        "columns": 4,
-        "mobile_columns": "1",
-        "mobile_card_size": "80cqw",
-        "columns_gap": 16,
-        "rows_gap": 16,
-        "icons_style": "arrow",
-        "icons_shape": "none",
-        "section_width": "page-width",
-        "horizontal_alignment": "flex-start",
-        "gap": 24,
+        "background_color": "#FFFFFF",
+        "heading_color": "#102D33",
         "color_scheme": "scheme-1",
+        "section_width": "page-width",
         "padding-block-start": 64,
         "padding-block-end": 64
       }
     }
   },
   "order": [
-    "hero_jVaWmY",
-    "press_logos",
-    "features_with_media",
-    "video_cta",
-    "product_showcase",
-    "trust_badges",
-    "customer_stats",
-    "how_it_works",
-    "testimonials",
-    "blog_posts"
+    "lp_hero",
+    "lp_press_mentions",
+    "lp_full_bleed_media",
+    "lp_media_block",
+    "lp_feature_callout",
+    "lp_survey_report",
+    "lp_product_carousel",
+    "lp_how_it_works",
+    "lp_testimonials",
+    "lp_blog_posts"
   ]
 }

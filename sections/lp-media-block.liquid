@@ -1,0 +1,278 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+
+<div
+  class="
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    lp-media-block
+    spacing-style
+  "
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --lp-mb-bg: {{ section.settings.background_color }};
+    --lp-mb-heading-color: {{ section.settings.heading_color }};
+    --lp-mb-text-color: {{ section.settings.text_color }};
+  "
+>
+  <div class="lp-media-block__content">
+    {% if section.settings.heading != blank %}
+      <div class="lp-media-block__heading">{{ section.settings.heading }}</div>
+    {% endif %}
+
+    {% if section.settings.subheading != blank %}
+      <p class="lp-media-block__subheading">{{ section.settings.subheading | escape }}</p>
+    {% endif %}
+  </div>
+
+  {% if section.settings.image != blank %}
+    <div class="lp-media-block__media">
+      {{
+        section.settings.image
+        | image_url: width: section.settings.image.width
+        | image_tag:
+          sizes: '(min-width: 750px) 60vw, 100vw',
+          widths: '375,550,750,1100,1500',
+          loading: 'lazy',
+          class: 'lp-media-block__image',
+          alt: section.settings.image.alt
+      }}
+
+      {% if section.settings.video_url != blank %}
+        <a
+          href="{{ section.settings.video_url }}"
+          class="lp-media-block__play-button"
+          aria-label="Play video"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+            <circle cx="40" cy="40" r="30" fill="var(--brand-tru-teal, #00839F)" stroke="#F1F0EC" stroke-width="3"/>
+            <polygon points="34,26 56,40 34,54" fill="#FFFFFF" />
+          </svg>
+        </a>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if section.settings.button_text != blank %}
+    <a
+      href="{{ section.settings.button_link | default: '#' }}"
+      class="lp-media-block__button"
+    >
+      {{ section.settings.button_text | escape }}
+    </a>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .lp-media-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    background-color: var(--lp-mb-bg, #FFFFFF);
+  }
+
+  .lp-media-block__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .lp-media-block__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: var(--font-size--3xl, 2rem);
+    line-height: 40px;
+    color: var(--lp-mb-heading-color, var(--brand-tru-teal, #00839F));
+    margin: 0;
+  }
+
+  .lp-media-block__heading p {
+    margin: 0;
+  }
+
+  .lp-media-block__subheading {
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: var(--font-size--2xl, 1.5rem);
+    line-height: 32px;
+    color: var(--lp-mb-text-color, var(--brand-teel-800, #102D33));
+    margin: 0;
+    text-align: center;
+  }
+
+  .lp-media-block__media {
+    position: relative;
+    width: 100%;
+    max-width: 750px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--brand-blue-50, #F0F4FA);
+  }
+
+  .lp-media-block__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .lp-media-block__play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .lp-media-block__play-button:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  .lp-media-block__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 28px;
+    background: #FFFFFF;
+    border: 2px solid var(--brand-ideal-orange, #F8B866);
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: var(--font-size--base, 1rem);
+    line-height: 24px;
+    color: var(--brand-aqua-900, #311C01);
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    max-width: 358px;
+  }
+
+  .lp-media-block__button:hover {
+    background: var(--brand-ideal-orange, #F8B866);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lp-media-block__play-button:hover {
+      transform: translate(-50%, -50%);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.lp_media_block",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "<p>Fill. Sip. Thrive.</p>"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "t:settings.subheading",
+      "default": "Cutting edge reverse osmosis water purifiers"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    },
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "t:settings.video_link"
+    },
+    {
+      "type": "header",
+      "content": "t:content.buttons"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "t:settings.button_label",
+      "default": "Get Your Free Water Report"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:settings.link"
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "t:settings.heading_color",
+      "default": "#00839F"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:settings.text_color",
+      "default": "#102D33"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.width",
+      "options": [
+        { "value": "page-width", "label": "t:options.page" },
+        { "value": "full-width", "label": "t:options.full" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 64,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.lp_media_block"
+    }
+  ]
+}
+{% endschema %}

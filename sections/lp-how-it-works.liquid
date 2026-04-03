@@ -1,0 +1,407 @@
+<lp-how-it-works
+  class="
+    section
+    section--full-width
+    color-{{ section.settings.color_scheme }}
+    lp-how-it-works
+  "
+  style="
+    --lp-hiw-overlay-color: {{ section.settings.overlay_color }};
+    --lp-hiw-section-height: {{ section.settings.section_height }}px;
+  "
+>
+  <div class="lp-how-it-works__background">
+    {% if section.settings.image != blank %}
+      {{
+        section.settings.image
+        | image_url: width: section.settings.image.width
+        | image_tag:
+          sizes: '100vw',
+          widths: '375,750,1100,1500,2000',
+          loading: 'lazy',
+          class: 'lp-how-it-works__bg-image',
+          alt: section.settings.image.alt
+      }}
+    {% else %}
+      <div class="lp-how-it-works__bg-placeholder"></div>
+    {% endif %}
+    <div class="lp-how-it-works__overlay"></div>
+  </div>
+
+  <div class="lp-how-it-works__content-wrapper">
+    <div class="lp-how-it-works__top-content">
+      {% if section.settings.heading != blank %}
+        <div class="lp-how-it-works__heading">{{ section.settings.heading }}</div>
+      {% endif %}
+
+      {% if section.settings.description != blank %}
+        <p class="lp-how-it-works__description">{{ section.settings.description | escape }}</p>
+      {% endif %}
+    </div>
+
+    {% if section.blocks.size > 0 %}
+      <div class="lp-how-it-works__stages">
+        {% for block in section.blocks %}
+          {% if block.type == 'stage' %}
+            <div
+              class="lp-how-it-works__stage {% if forloop.first %}lp-how-it-works__stage--active{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              <div class="lp-how-it-works__stage-indicator">
+                <span class="lp-how-it-works__stage-dot"></span>
+                {% unless forloop.last %}
+                  <span class="lp-how-it-works__stage-line"></span>
+                {% endunless %}
+              </div>
+              <div class="lp-how-it-works__stage-content">
+                {% if block.settings.stage_label != blank %}
+                  <span class="lp-how-it-works__stage-label">{{ block.settings.stage_label | escape }}</span>
+                {% endif %}
+                {% if block.settings.title != blank %}
+                  <h3 class="lp-how-it-works__stage-title">{{ block.settings.title | escape }}</h3>
+                {% endif %}
+                {% if block.settings.description != blank %}
+                  <p class="lp-how-it-works__stage-desc">{{ block.settings.description | escape }}</p>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</lp-how-it-works>
+
+{% stylesheet %}
+  .lp-how-it-works {
+    position: relative;
+    min-height: var(--lp-hiw-section-height, 760px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .lp-how-it-works__background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .lp-how-it-works__bg-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .lp-how-it-works__bg-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #2E5C6C;
+  }
+
+  .lp-how-it-works__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(26, 44, 55, 0.7) 0%,
+      rgba(73, 126, 157, 0.05) 50%,
+      rgba(26, 44, 55, 0.7) 100%
+    );
+  }
+
+  .lp-how-it-works__content-wrapper {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    padding: 48px 16px;
+    gap: 48px;
+  }
+
+  .lp-how-it-works__top-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 600px;
+  }
+
+  .lp-how-it-works__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 400;
+    font-size: var(--font-size--3xl, 2rem);
+    line-height: 40px;
+    color: #FFFFFF;
+    margin: 0;
+  }
+
+  .lp-how-it-works__heading p {
+    margin: 0;
+  }
+
+  .lp-how-it-works__description {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: var(--font-size--base, 1rem);
+    line-height: 24px;
+    color: #FFFFFF;
+    margin: 0;
+  }
+
+  .lp-how-it-works__stages {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .lp-how-it-works__stage {
+    display: flex;
+    gap: 12px;
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+  }
+
+  .lp-how-it-works__stage--active {
+    opacity: 1;
+  }
+
+  .lp-how-it-works__stage-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding-block-start: 4px;
+  }
+
+  .lp-how-it-works__stage-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    flex-shrink: 0;
+  }
+
+  .lp-how-it-works__stage--active .lp-how-it-works__stage-dot {
+    background: #FFFFFF;
+  }
+
+  .lp-how-it-works__stage:not(.lp-how-it-works__stage--active) .lp-how-it-works__stage-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--brand-blue-50, #F0F4FA);
+  }
+
+  .lp-how-it-works__stage-line {
+    width: 1px;
+    flex: 1;
+    min-height: 16px;
+    background: #F1F0EC;
+  }
+
+  .lp-how-it-works__stage-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-block-end: 16px;
+  }
+
+  .lp-how-it-works__stage--active .lp-how-it-works__stage-content {
+    gap: 4px;
+  }
+
+  .lp-how-it-works__stage-label {
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: var(--font-size--base, 1rem);
+    line-height: 24px;
+    color: #FFFFFF;
+  }
+
+  .lp-how-it-works__stage:not(.lp-how-it-works__stage--active) .lp-how-it-works__stage-label {
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--brand-aqua-50, #EBF3F7);
+  }
+
+  .lp-how-it-works__stage-title {
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: var(--font-size--2xl, 1.5rem);
+    line-height: 32px;
+    color: #FFFFFF;
+    margin: 0;
+  }
+
+  .lp-how-it-works__stage:not(.lp-how-it-works__stage--active) .lp-how-it-works__stage-title {
+    display: none;
+  }
+
+  .lp-how-it-works__stage-desc {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: var(--font-size--base, 1rem);
+    line-height: 24px;
+    color: #FFFFFF;
+    margin: 0;
+  }
+
+  .lp-how-it-works__stage:not(.lp-how-it-works__stage--active) .lp-how-it-works__stage-desc {
+    display: none;
+  }
+
+  @media screen and (min-width: 769px) {
+    .lp-how-it-works__content-wrapper {
+      padding: 80px 48px;
+      flex-direction: row;
+      align-items: flex-end;
+    }
+
+    .lp-how-it-works__top-content {
+      flex: 1;
+      align-self: flex-start;
+    }
+
+    .lp-how-it-works__stages {
+      flex: 0 0 400px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lp-how-it-works__stage {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  import '@theme/lp-how-it-works';
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:names.lp_how_it_works",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.background"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "<p>Patented 4-Stage Ultra Reverse Osmosis® Purification</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "t:settings.description",
+      "default": "AquaTru filters more water with up to 80% less waste than traditional R.O. systems by recirculating and isolating contaminants."
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "t:settings.overlay_color",
+      "default": "#1A2C37"
+    },
+    {
+      "type": "number",
+      "id": "section_height",
+      "label": "t:settings.section_height",
+      "default": 760
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stage",
+      "name": "t:names.stage",
+      "settings": [
+        {
+          "type": "text",
+          "id": "stage_label",
+          "label": "t:settings.stage_label",
+          "default": "STAGE 1 & 2"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:settings.heading",
+          "default": "Stage title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "t:settings.description",
+          "default": "Stage description text."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.lp_how_it_works",
+      "blocks": [
+        {
+          "type": "stage",
+          "settings": {
+            "stage_label": "STAGE 1 & 2",
+            "title": "Pre Carbon Filter",
+            "description": "Captures sediment, rust, chlorine, and chloramines for cleaner, better-tasting water."
+          }
+        },
+        {
+          "type": "stage",
+          "settings": {
+            "stage_label": "STAGE 3",
+            "title": "Ultra Reverse Osmosis Membrane",
+            "description": "Removes up to 99% of contaminants including lead, fluoride, and forever chemicals."
+          }
+        },
+        {
+          "type": "stage",
+          "settings": {
+            "stage_label": "STAGE 4",
+            "title": "Coconut Carbon VOC Filter",
+            "description": "Final polish removes remaining impurities for the purest, best-tasting water."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
