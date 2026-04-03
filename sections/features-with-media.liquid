@@ -1,0 +1,459 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+
+<div
+  class="
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    features-with-media
+    spacing-style
+  "
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --fwm-bg: {{ section.settings.background_color }};
+    --fwm-heading-color: {{ section.settings.heading_color }};
+    --fwm-text-color: {{ section.settings.text_color }};
+  "
+>
+  <div class="features-with-media__layout features-with-media__layout--media-{{ section.settings.media_position }}">
+    <div class="features-with-media__media">
+      {% if section.settings.image != blank %}
+        {{
+          section.settings.image
+          | image_url: width: section.settings.image.width
+          | image_tag:
+            sizes: '(min-width: 750px) 50vw, 100vw',
+            widths: '375,550,750,1100,1500',
+            loading: 'lazy',
+            class: 'features-with-media__image',
+            alt: section.settings.image.alt
+        }}
+      {% else %}
+        <div class="features-with-media__placeholder" style="aspect-ratio: 390/420; background: var(--color-border, #eee);"></div>
+      {% endif %}
+    </div>
+
+    <div class="features-with-media__content">
+      {% if section.settings.subtitle != blank %}
+        <p class="features-with-media__subtitle">{{ section.settings.subtitle | escape }}</p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="features-with-media__heading">{{ section.settings.heading }}</div>
+      {% endif %}
+
+      {% if section.settings.description != blank %}
+        <p class="features-with-media__description">{{ section.settings.description | escape }}</p>
+      {% endif %}
+
+      {% if section.blocks.size > 0 %}
+        <div class="features-with-media__features">
+          {% for block in section.blocks %}
+            {% if block.type == 'feature' %}
+              <div class="features-with-media__feature" {{ block.shopify_attributes }}>
+                <div class="features-with-media__feature-icon">
+                  {% if block.settings.icon != blank %}
+                    <img
+                      src="{{ block.settings.icon | image_url: width: 64 }}"
+                      alt=""
+                      width="32"
+                      height="32"
+                      loading="lazy"
+                    >
+                  {% elsif block.settings.icon_svg != blank %}
+                    <img
+                      src="{{ block.settings.icon_svg | asset_url }}"
+                      alt=""
+                      width="32"
+                      height="32"
+                      loading="lazy"
+                    >
+                  {% endif %}
+                </div>
+                <div class="features-with-media__feature-text">
+                  {% if block.settings.title != blank %}
+                    <h3 class="features-with-media__feature-title">{{ block.settings.title | escape }}</h3>
+                  {% endif %}
+                  {% if block.settings.description != blank %}
+                    <p class="features-with-media__feature-desc">{{ block.settings.description | escape }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.button_text != blank %}
+        <a
+          href="{{ section.settings.button_link | default: '#' }}"
+          class="features-with-media__button features-with-media__button--{{ section.settings.button_style }}"
+        >
+          {{ section.settings.button_text | escape }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .features-with-media {
+    background-color: var(--fwm-bg, #FFFFFF);
+  }
+
+  .features-with-media__layout {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .features-with-media__media {
+    width: 100%;
+  }
+
+  .features-with-media__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .features-with-media__content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .features-with-media__subtitle {
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: var(--font-size--base, 1rem);
+    line-height: 24px;
+    color: var(--fwm-text-color, var(--color-foreground));
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .features-with-media__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: var(--font-size--3xl, 2rem);
+    line-height: 40px;
+    color: var(--fwm-heading-color, var(--brand-tru-teal, #00839F));
+    margin: 0;
+  }
+
+  .features-with-media__heading p {
+    margin: 0;
+  }
+
+  .features-with-media__description {
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: var(--font-size--2xl, 1.5rem);
+    line-height: 32px;
+    color: var(--fwm-text-color, var(--brand-teel-800, #102D33));
+    margin: 0;
+  }
+
+  .features-with-media__features {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .features-with-media__feature {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .features-with-media__feature-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .features-with-media__feature-icon img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+
+  .features-with-media__feature-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    justify-content: center;
+  }
+
+  .features-with-media__feature-title {
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: var(--font-size--lg, 1.125rem);
+    line-height: 28px;
+    color: var(--fwm-text-color, var(--brand-teel-800, #102D33));
+    margin: 0;
+  }
+
+  .features-with-media__feature-desc {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: var(--font-size--base, 1rem);
+    line-height: 24px;
+    color: var(--color-foreground, #121211);
+    margin: 0;
+  }
+
+  .features-with-media__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 28px;
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: var(--font-size--base, 1rem);
+    line-height: 24px;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .features-with-media__button--outline {
+    background: #FFFFFF;
+    border: 2px solid var(--brand-ideal-orange, #F8B866);
+    color: var(--brand-aqua-900, #311C01);
+  }
+
+  .features-with-media__button--outline:hover {
+    background: var(--brand-ideal-orange, #F8B866);
+    color: var(--brand-aqua-900, #311C01);
+  }
+
+  .features-with-media__button--primary {
+    background: var(--brand-ideal-orange, #F9A31A);
+    border: none;
+    color: var(--brand-aqua-900, #311C01);
+  }
+
+  .features-with-media__button--primary:hover {
+    opacity: 0.9;
+  }
+
+  @media screen and (min-width: 769px) {
+    .features-with-media__layout {
+      flex-direction: row;
+      gap: 0;
+    }
+
+    .features-with-media__layout--media-right {
+      flex-direction: row-reverse;
+    }
+
+    .features-with-media__media {
+      width: 50%;
+      flex-shrink: 0;
+    }
+
+    .features-with-media__content {
+      width: 50%;
+      padding: 24px 16px 64px 16px;
+      justify-content: center;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.features_with_media",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "t:settings.media_position",
+      "options": [
+        { "value": "left", "label": "t:options.left" },
+        { "value": "right", "label": "t:options.right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "t:content.heading"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "t:settings.subheading",
+      "default": "REVOLUTIONARY WATER PURIFICATION"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "<p>Pure, Great-Tasting Water with 4-Stage RO Purification, Certified to remove 84 contaminants</p>"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "t:settings.description",
+      "default": "Tap into powerful data on what's really in your tap water."
+    },
+    {
+      "type": "header",
+      "content": "t:content.buttons"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "t:settings.button_label",
+      "default": "See Full List"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:settings.link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "t:settings.style",
+      "options": [
+        { "value": "primary", "label": "t:options.button_primary" },
+        { "value": "outline", "label": "t:options.button_secondary" }
+      ],
+      "default": "outline"
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#00839F"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:settings.text_color",
+      "default": "#102D33"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.width",
+      "options": [
+        { "value": "page-width", "label": "t:options.page" },
+        { "value": "full-width", "label": "t:options.full" }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "t:names.feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "t:settings.icon"
+        },
+        {
+          "type": "text",
+          "id": "icon_svg",
+          "label": "SVG asset filename",
+          "info": "e.g. infinity.svg"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:settings.heading",
+          "default": "Feature title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "t:settings.description",
+          "default": "Feature description text."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.features_with_media",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon_svg": "infinity.svg",
+            "title": "Chemical Contaminants",
+            "description": "Removes toxins like chlorine, fluoride, arsenic, & \"forever chemicals\"."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon_svg": "falloutshelter.svg",
+            "title": "Physical Contaminants",
+            "description": "Filters out particles like lead & microplastics from pipes & plastic waste."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon_svg": "plant.svg",
+            "title": "Agricultural Contaminants",
+            "description": "Eliminates pesticides, herbicides, & nitrates from farm runoff."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

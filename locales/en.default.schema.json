@@ -434,7 +434,17 @@
     "video_section": "Video",
     "view_all_button": "View all",
     "pills": "Pills",
-    "comparison_slider": "Comparison slider"
+    "comparison_slider": "Comparison slider",
+    "press_logos": "Press logos",
+    "features_with_media": "Features with media",
+    "feature": "Feature",
+    "video_cta": "Video CTA",
+    "product_showcase": "Product showcase",
+    "trust_badges": "Trust badges",
+    "badge": "Badge",
+    "customer_stats": "Customer stats",
+    "how_it_works": "How it works",
+    "testimonial": "Testimonial"
   },
   "options": {
     "above_carousel": "Above carousel",
@@ -1174,7 +1184,11 @@
     "cs_slider_inner_color": "Slider inner color",
     "text_on_images": "Text on images",
     "x_position": "Horizontal position",
-    "y_position": "Vertical position"
+    "y_position": "Vertical position",
+    "text_color": "Text color",
+    "alt_text": "Alt text",
+    "video_link": "Video URL",
+    "button_label": "Button label"
   },
   "text_defaults": {
     "accordion_heading": "Accordion heading",
