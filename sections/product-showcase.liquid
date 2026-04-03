@@ -11,7 +11,7 @@
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 
-<div
+<product-showcase
   class="
     section
     section--{{ section.settings.section_width }}
@@ -139,9 +139,9 @@
             </div>
             <div class="product-showcase__card-info">
               <div class="product-showcase__card-top">
-                <a href="#" class="product-showcase__title">Sample Product {{ i }}</a>
+                <span class="product-showcase__title">{{ section.settings.button_text | default: 'Learn More' | escape }}</span>
                 <div class="product-showcase__price-row">
-                  <span class="product-showcase__price">$375.00</span>
+                  <span class="product-showcase__price">{{ shop.money_format }}</span>
                 </div>
               </div>
               <a href="#" class="product-showcase__cta">{{ section.settings.button_text | default: 'Learn More' | escape }}</a>
@@ -157,7 +157,7 @@
       <div class="product-showcase__scrollbar-thumb"></div>
     </div>
   </div>
-</div>
+</product-showcase>
 
 {% stylesheet %}
   .product-showcase {
@@ -472,7 +472,7 @@
 {% schema %}
 {
   "name": "t:names.product_showcase",
-  "tag": "product-showcase",
+  "tag": "section",
   "settings": [
     {
       "type": "collection",
@@ -488,7 +488,7 @@
     {
       "type": "range",
       "id": "max_products",
-      "label": "Max products",
+      "label": "t:settings.max_products",
       "min": 2,
       "max": 12,
       "step": 1,
@@ -503,24 +503,24 @@
     {
       "type": "text",
       "id": "installment_text",
-      "label": "Installment text",
+      "label": "t:settings.installment_text",
       "default": "or 4 easy instalments as low as $32.00/mo"
     },
     {
       "type": "checkbox",
       "id": "show_rating",
-      "label": "Show rating",
+      "label": "t:settings.show_rating",
       "default": true
     },
     {
       "type": "image_picker",
       "id": "star_image",
-      "label": "Star rating image"
+      "label": "t:settings.star_rating_image"
     },
     {
       "type": "text",
       "id": "star_svg",
-      "label": "Star SVG asset",
+      "label": "t:settings.star_svg_asset",
       "default": "rating-star.svg"
     },
     {
@@ -536,37 +536,37 @@
     {
       "type": "color",
       "id": "heading_color",
-      "label": "Heading color",
+      "label": "t:settings.heading_color",
       "default": "#00839F"
     },
     {
       "type": "color",
       "id": "price_color",
-      "label": "Price color",
+      "label": "t:settings.price_color",
       "default": "#00839F"
     },
     {
       "type": "color",
       "id": "badge_color",
-      "label": "Badge color",
+      "label": "t:settings.badge_color",
       "default": "#0E3D66"
     },
     {
       "type": "color",
       "id": "badge_text_color",
-      "label": "Badge text color",
+      "label": "t:settings.badge_text_color",
       "default": "#FFFFFF"
     },
     {
       "type": "color",
       "id": "button_background",
-      "label": "Button color",
+      "label": "t:settings.button_background_color",
       "default": "#F9A31A"
     },
     {
       "type": "color",
       "id": "button_text_color",
-      "label": "Button text color",
+      "label": "t:settings.button_text_color",
       "default": "#311C01"
     },
     {

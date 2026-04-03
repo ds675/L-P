@@ -83,7 +83,7 @@
                           <circle cx="6" cy="6" r="6" fill="#446835"/>
                           <path d="M3.5 6L5.5 8L8.5 4.5" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        <span>Verified User</span>
+                        <span>{{ block.settings.verified_label | default: 'Verified User' | escape }}</span>
                       </span>
                     {% endif %}
                   </div>
@@ -276,18 +276,18 @@
     {
       "type": "image_picker",
       "id": "star_image",
-      "label": "Star rating image"
+      "label": "t:settings.star_rating_image"
     },
     {
       "type": "text",
       "id": "star_svg",
-      "label": "Star SVG asset",
+      "label": "t:settings.star_svg_asset",
       "default": "rating-star.svg"
     },
     {
       "type": "text",
       "id": "rating_text",
-      "label": "Rating text",
+      "label": "t:settings.rating_text",
       "default": "Over 300,000+ 5 Star Reviews"
     },
     {
@@ -303,7 +303,7 @@
     {
       "type": "color",
       "id": "heading_color",
-      "label": "Heading color",
+      "label": "t:settings.heading_color",
       "default": "#102D33"
     },
     {
@@ -356,26 +356,32 @@
         {
           "type": "textarea",
           "id": "quote",
-          "label": "Quote",
+          "label": "t:settings.quote",
           "default": "\"I love this so much. The water tastes amazing. After buying my first one, I bought another for my son and his family. Everyone raves about the quality and clean water.\""
         },
         {
           "type": "text",
           "id": "author_name",
-          "label": "Author name",
+          "label": "t:settings.author_name",
           "default": "Elizabeth M."
         },
         {
           "type": "text",
           "id": "author_initials",
-          "label": "Author initials",
+          "label": "t:settings.author_initials",
           "default": "EM"
         },
         {
           "type": "checkbox",
           "id": "verified",
-          "label": "Verified user",
+          "label": "t:settings.verified_user",
           "default": true
+        },
+        {
+          "type": "text",
+          "id": "verified_label",
+          "label": "t:settings.verified_label",
+          "default": "Verified User"
         }
       ]
     }
