@@ -1,0 +1,286 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+
+<div
+  class="
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    trust-badges
+    spacing-style
+  "
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --tb-bg: {{ section.settings.background_color }};
+    --tb-text-color: {{ section.settings.text_color }};
+    --tb-heading-color: {{ section.settings.heading_color }};
+  "
+>
+  <div class="trust-badges__content">
+    {% if section.settings.heading != blank %}
+      <div class="trust-badges__heading">{{ section.settings.heading }}</div>
+    {% endif %}
+
+    {% if section.settings.description != blank %}
+      <p class="trust-badges__description">{{ section.settings.description | escape }}</p>
+    {% endif %}
+  </div>
+
+  {% if section.blocks.size > 0 %}
+    <div class="trust-badges__list">
+      {% for block in section.blocks %}
+        {% if block.type == 'badge' %}
+          <div class="trust-badges__item" {{ block.shopify_attributes }}>
+            <div class="trust-badges__icon">
+              {% if block.settings.icon != blank %}
+                <img
+                  src="{{ block.settings.icon | image_url: width: 80 }}"
+                  alt=""
+                  width="40"
+                  height="40"
+                  loading="lazy"
+                >
+              {% elsif block.settings.icon_svg != blank %}
+                <img
+                  src="{{ block.settings.icon_svg | asset_url }}"
+                  alt=""
+                  width="40"
+                  height="40"
+                  loading="lazy"
+                >
+              {% endif %}
+            </div>
+            {% if block.settings.text != blank %}
+              <p class="trust-badges__text">{{ block.settings.text | escape }}</p>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .trust-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    background-color: var(--tb-bg, var(--brand-calm-teal, #C7E8ED));
+  }
+
+  .trust-badges__content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .trust-badges__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: var(--font-size--3xl, 2rem);
+    line-height: 40px;
+    color: var(--tb-heading-color, var(--brand-teel-800, #102D33));
+    margin: 0;
+  }
+
+  .trust-badges__heading p {
+    margin: 0;
+  }
+
+  .trust-badges__description {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: var(--font-size--base, 1rem);
+    line-height: 24px;
+    color: var(--color-foreground, #121211);
+    margin: 0;
+  }
+
+  .trust-badges__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .trust-badges__item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .trust-badges__icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .trust-badges__icon img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+  }
+
+  .trust-badges__text {
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: var(--font-size--base, 1rem);
+    line-height: 24px;
+    color: var(--tb-text-color, var(--brand-aqua-800, #0C2B45));
+    margin: 0;
+  }
+
+  @media screen and (min-width: 769px) {
+    .trust-badges__content {
+      text-align: center;
+      align-items: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .trust-badges__list {
+      flex-direction: row;
+      justify-content: center;
+      gap: 48px;
+    }
+
+    .trust-badges__item {
+      flex-direction: column;
+      text-align: center;
+      max-width: 200px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.trust_badges",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "<p>Experience the AquaTru Difference</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "t:settings.description",
+      "default": "If it's not the best water you've ever tasted, get a full refund within 30 days.*"
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "default": "#C7E8ED"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "t:settings.heading_color",
+      "default": "#102D33"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:settings.text_color",
+      "default": "#0C2B45"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.width",
+      "options": [
+        { "value": "page-width", "label": "t:options.page" },
+        { "value": "full-width", "label": "t:options.full" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 64,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 64,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "t:names.badge",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "t:settings.icon"
+        },
+        {
+          "type": "text",
+          "id": "icon_svg",
+          "label": "t:settings.svg_asset_filename",
+          "info": "e.g. shieldcheck.svg"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:settings.text",
+          "default": "Badge text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.trust_badges",
+      "blocks": [
+        {
+          "type": "badge",
+          "settings": {
+            "icon_svg": "calendardots.svg",
+            "text": "30-Day Money Back Guarantee"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "icon_svg": "certificate.svg",
+            "text": "Independently Tested to NSF Standards"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "icon_svg": "shieldcheck.svg",
+            "text": "1-Year Manufacturer's Warranty"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
